@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,26 +30,34 @@
             line-height: 1.6;
         }
 
+        /* HEADER: LOGO ARRIBA Y TITULOS DEBAJO */
+
         header {
-            padding: 24px 7%;
+            width: 100%;
+            padding: 20px 16px 22px;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
+            gap: 5px;
+            text-align: center;
             border-bottom: 1px solid rgba(55, 160, 255, 0.16);
         }
+
         .logo-image {
-            width: 20%;
-            max-width: 50px;
+            display: block;
+            width: 62px;
+            max-width: 22vw;
             height: auto;
-            display: block;         /* Hace que ocupe todo el ancho disponible, mandando los títulos abajo */
-            margin: 0 auto 15px auto;
-                
+            object-fit: contain;
+            margin: 0 auto 3px;
         }
 
         .logo {
             font-size: 21px;
             font-weight: 800;
             letter-spacing: 1.5px;
+            line-height: 1.3;
         }
 
         .logo span {
@@ -60,7 +69,10 @@
             color: #aabbd3;
             letter-spacing: 2px;
             text-transform: uppercase;
+            line-height: 1.5;
         }
+
+        /* MAIN */
 
         main {
             width: 100%;
@@ -337,17 +349,24 @@
 
         @media (max-width: 600px) {
             header {
-                padding: 20px 5%;
+                padding: 18px 12px 20px;
+                gap: 4px;
+            }
+
+            .logo-image {
+                width: 54px;
+                max-width: 20vw;
+                margin-bottom: 3px;
             }
 
             .logo {
-                font-size: 17px;
-                letter-spacing: 1px;
+                font-size: 18px;
+                letter-spacing: 1.2px;
             }
 
             .header-label {
                 font-size: 9px;
-                letter-spacing: 1px;
+                letter-spacing: 1.3px;
             }
 
             main {
@@ -419,17 +438,22 @@
 
 <body>
 
+    <!-- HEADER -->
+
     <header>
         <img
-                class="logo-image"
-                src="Logo.png"
-                alt="DGILA Studios — Play, Learn, Master. Custom quiz apps for academies and businesses."
-            >
-        
-        
-        <div class="logo">DGILA <span>STUDIOS</span></div>
-          
-        <div class="header-label">Interactive Learning</div>
+            class="logo-image"
+            src="Logo.png"
+            alt="DGILA Studios logo"
+        >
+
+        <div class="logo">
+            DGILA <span>STUDIOS</span>
+        </div>
+
+        <div class="header-label">
+            Interactive Learning
+        </div>
     </header>
 
     <main>
@@ -474,14 +498,18 @@
                 >
                     EXPLORE OUR APPS ↗
                 </a>
-                
+
                 <a
                     class="button button-secondary"
-                    href="mailto:dgila.studios@gmail.com?subject=Custom%20Quiz%20App%20Inquiry">
-                CONTACT US ✉
+                    href="mailto:dgila.studios@gmail.com?subject=Custom%20Quiz%20App%20Inquiry"
+                >
+                    CONTACT US ✉
                 </a>
 
-                <a class="button button-secondary" href="#brochure">
+                <a
+                    class="button button-secondary"
+                    href="#brochure"
+                >
                     VIEW OUR BROCHURE ↓
                 </a>
 
@@ -493,12 +521,12 @@
 
         </section>
 
-
         <!-- PDF BROCHURE SECTION -->
 
         <section class="brochure" id="brochure">
 
             <div class="brochure-heading">
+
                 <p class="eyebrow">Our services</p>
 
                 <h2>
@@ -509,6 +537,7 @@
                     Explore our brochure to learn about our custom quiz apps,
                     available options, pricing and development process.
                 </p>
+
             </div>
 
             <div class="pdf-card">
@@ -516,12 +545,14 @@
                 <div class="pdf-toolbar">
 
                     <div class="pdf-title">
+
                         <div class="pdf-icon">PDF</div>
 
                         <div>
                             <strong>DGILA Studios</strong>
                             <small>Custom Quiz Apps · Service Brochure</small>
                         </div>
+
                     </div>
 
                     <div class="pdf-actions">
@@ -552,13 +583,14 @@
                     <iframe
                         src="Dossier_EN.pdf#view=FitH"
                         title="DGILA Studios Custom Quiz Apps Brochure"
-                        loading="lazy">
-                    </iframe>
+                        loading="lazy"
+                    ></iframe>
 
                 </div>
 
                 <div class="pdf-footer">
                     Prefer to open the brochure separately?
+
                     <a
                         href="Dossier_EN.pdf"
                         target="_blank"
@@ -574,19 +606,24 @@
 
     </main>
 
-<footer>
-    <strong>DGILA Studios</strong><br>
-    Custom quiz apps and interactive learning experiences.<br>
+    <!-- FOOTER -->
 
-    <a href="mailto:dgila.studios@gmail.com"
-       style="color:#24baff; text-decoration:none;">
-        ✉ dgila.studios@gmail.com
-    </a>
+    <footer>
+        <strong>DGILA Studios</strong><br>
+        Custom quiz apps and interactive learning experiences.<br>
 
-    <br>
-    &copy; <span id="year">2026</span> DGILA Studios.
-    All rights reserved.
-</footer>
+        <a
+            href="mailto:dgila.studios@gmail.com"
+            style="color:#24baff; text-decoration:none;"
+        >
+            ✉ dgila.studios@gmail.com
+        </a>
+
+        <br>
+
+        &copy; <span id="year">2026</span> DGILA Studios.
+        All rights reserved.
+    </footer>
 
     <script>
         document.getElementById("year").textContent =
@@ -595,4 +632,3 @@
 
 </body>
 </html>
-
