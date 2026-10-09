@@ -8,7 +8,7 @@
 
     <meta name="description" content="Custom quiz apps for academies, businesses, training centers and educators. Turn your content into interactive learning experiences with DGILA Studios.">
 
-    <meta name="theme-color" content="#030b1d">
+    <meta name="theme-color" content="#030817">
 
     <style>
         * {
@@ -17,22 +17,24 @@
             padding: 0;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: Arial, Helvetica, sans-serif;
             background: #030817;
             color: #f4f7ff;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            line-height: 1.6;
         }
 
         header {
-            width: 100%;
-            padding: 26px 7%;
+            padding: 24px 7%;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid rgba(55, 160, 255, 0.15);
+            border-bottom: 1px solid rgba(55, 160, 255, 0.16);
         }
 
         .logo {
@@ -46,7 +48,7 @@
         }
 
         .header-label {
-            font-size: 12px;
+            font-size: 11px;
             color: #aabbd3;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -54,10 +56,14 @@
 
         main {
             width: 100%;
-            max-width: 1200px;
+            max-width: 1160px;
             margin: 0 auto;
-            padding: 55px 24px 45px;
-            flex: 1;
+            padding: 48px 24px 70px;
+        }
+
+        /* HERO */
+
+        .hero {
             text-align: center;
         }
 
@@ -66,7 +72,7 @@
             max-width: 1000px;
             height: auto;
             display: block;
-            margin: 0 auto 42px;
+            margin: 0 auto 40px;
             border-radius: 8px;
             box-shadow: 0 15px 55px rgba(0, 100, 255, 0.12);
         }
@@ -77,12 +83,12 @@
             font-weight: bold;
             letter-spacing: 3px;
             text-transform: uppercase;
-            margin-bottom: 18px;
+            margin-bottom: 16px;
         }
 
         h1 {
             font-size: clamp(30px, 5vw, 48px);
-            line-height: 1.15;
+            line-height: 1.18;
             font-weight: 800;
             letter-spacing: -1px;
             margin-bottom: 22px;
@@ -93,79 +99,242 @@
         }
 
         .description {
-            max-width: 690px;
+            max-width: 720px;
             margin: 0 auto;
             color: #b7c4d9;
             font-size: 17px;
-            line-height: 1.8;
+            line-height: 1.9;
         }
 
         .features {
             display: flex;
             justify-content: center;
             flex-wrap: wrap;
-            gap: 14px;
-            margin: 32px auto 38px;
+            gap: 12px;
+            margin: 30px auto 35px;
         }
 
         .feature {
             border: 1px solid rgba(57, 164, 255, 0.24);
             background: rgba(15, 39, 75, 0.35);
             border-radius: 6px;
-            padding: 12px 18px;
+            padding: 10px 16px;
             color: #dceaff;
             font-size: 13px;
         }
 
-        .cta {
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        .button {
             display: inline-block;
-            padding: 16px 30px;
-            background: linear-gradient(100deg, #078de8, #13baff);
-            color: #ffffff;
-            font-size: 14px;
-            font-weight: bold;
-            letter-spacing: 0.7px;
-            text-decoration: none;
+            padding: 15px 25px;
             border-radius: 5px;
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            transition: 0.2s ease;
+        }
+
+        .button-primary {
+            color: #ffffff;
+            background: linear-gradient(100deg, #078de8, #13baff);
             box-shadow: 0 6px 25px rgba(0, 153, 255, 0.2);
-            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .cta:hover {
+        .button-secondary {
+            color: #dceaff;
+            border: 1px solid #1979b8;
+            background: rgba(10, 35, 66, 0.5);
+        }
+
+        .button:hover {
             transform: translateY(-2px);
-            box-shadow: 0 9px 32px rgba(0, 153, 255, 0.35);
-        }
-
-        .cta span {
-            margin-left: 8px;
+            filter: brightness(1.12);
         }
 
         .note {
             color: #8192ad;
             font-size: 12px;
-            margin-top: 17px;
+            margin-top: 16px;
         }
+
+        /* BROCHURE */
+
+        .brochure {
+            margin: 80px auto 0;
+            padding-top: 55px;
+            border-top: 1px solid rgba(55, 160, 255, 0.2);
+        }
+
+        .brochure-heading {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .brochure-heading h2 {
+            font-size: clamp(27px, 4vw, 37px);
+            line-height: 1.25;
+            margin-bottom: 14px;
+        }
+
+        .brochure-heading h2 span {
+            color: #16baff;
+        }
+
+        .brochure-heading p {
+            max-width: 650px;
+            margin: 0 auto;
+            color: #aabbd3;
+            font-size: 15px;
+        }
+
+        .pdf-card {
+            overflow: hidden;
+            border: 1px solid rgba(55, 160, 255, 0.25);
+            border-radius: 10px;
+            background: #09152a;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.25);
+        }
+
+        .pdf-toolbar {
+            min-height: 66px;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            border-bottom: 1px solid rgba(55, 160, 255, 0.18);
+        }
+
+        .pdf-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .pdf-icon {
+            width: 38px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            background: rgba(0, 159, 255, 0.12);
+            color: #24baff;
+            font-size: 12px;
+            font-weight: bold;
+            border: 1px solid rgba(36, 186, 255, 0.3);
+        }
+
+        .pdf-title strong {
+            display: block;
+            font-size: 14px;
+            color: #edf5ff;
+        }
+
+        .pdf-title small {
+            display: block;
+            color: #8192ad;
+            font-size: 11px;
+            margin-top: 3px;
+        }
+
+        .pdf-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .pdf-action {
+            display: inline-block;
+            padding: 9px 13px;
+            border-radius: 4px;
+            border: 1px solid rgba(55, 160, 255, 0.35);
+            color: #dceaff;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .pdf-action:hover {
+            background: rgba(22, 186, 255, 0.12);
+            border-color: #16baff;
+        }
+
+        .pdf-action.download {
+            background: #078fda;
+            border-color: #078fda;
+            color: #ffffff;
+        }
+
+        .pdf-action.download:hover {
+            background: #0aa9f5;
+        }
+
+        .pdf-viewer {
+            width: 100%;
+            height: 780px;
+            background: #ffffff;
+        }
+
+        .pdf-viewer iframe {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .pdf-footer {
+            padding: 15px 20px;
+            text-align: center;
+            color: #8192ad;
+            font-size: 12px;
+            border-top: 1px solid rgba(55, 160, 255, 0.15);
+        }
+
+        .pdf-footer a {
+            color: #24baff;
+            text-decoration: none;
+        }
+
+        .pdf-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* FOOTER */
 
         footer {
             text-align: center;
-            padding: 24px 16px;
+            padding: 25px 16px;
             border-top: 1px solid rgba(55, 160, 255, 0.15);
             color: #8192ad;
             font-size: 12px;
-            line-height: 1.8;
+            line-height: 1.9;
         }
 
         footer strong {
             color: #c9d9ef;
         }
 
+        /* MOBILE */
+
         @media (max-width: 600px) {
             header {
-                padding: 21px 6%;
+                padding: 20px 5%;
             }
 
             .logo {
                 font-size: 17px;
+                letter-spacing: 1px;
             }
 
             .header-label {
@@ -174,11 +343,11 @@
             }
 
             main {
-                padding: 32px 18px 40px;
+                padding: 30px 16px 45px;
             }
 
             .hero-image {
-                margin-bottom: 32px;
+                margin-bottom: 30px;
             }
 
             .description {
@@ -186,17 +355,55 @@
             }
 
             .features {
-                gap: 9px;
+                gap: 8px;
             }
 
             .feature {
-                padding: 10px 12px;
-                font-size: 12px;
+                padding: 9px 11px;
+                font-size: 11px;
             }
 
-            .cta {
-                padding: 15px 22px;
-                font-size: 12px;
+            .buttons {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .buttons .button {
+                width: 100%;
+                max-width: 330px;
+                text-align: center;
+            }
+
+            .brochure {
+                margin-top: 55px;
+                padding-top: 38px;
+            }
+
+            .brochure-heading p {
+                font-size: 14px;
+            }
+
+            .pdf-toolbar {
+                padding: 14px;
+                align-items: flex-start;
+            }
+
+            .pdf-actions {
+                width: 100%;
+            }
+
+            .pdf-action {
+                flex: 1;
+                text-align: center;
+            }
+
+            .pdf-viewer {
+                height: 600px;
+            }
+
+            .pdf-footer {
+                padding: 14px;
+                line-height: 1.8;
             }
         }
     </style>
@@ -211,57 +418,153 @@
 
     <main>
 
-        <img
-            class="hero-image"
-            src="dev-webpage.jpg"
-            alt="DGILA Studios — Play, Learn, Master. Custom quiz apps for academies and businesses."
-        >
+        <!-- HERO SECTION -->
 
-        <p class="eyebrow">Learning through interaction</p>
+        <section class="hero">
 
-        <h1>
-            Custom Quiz Apps for<br>
-            <span>Academies &amp; Businesses</span>
-        </h1>
+            <img
+                class="hero-image"
+                src="dev-webpage.jpg"
+                alt="DGILA Studios — Play, Learn, Master. Custom quiz apps for academies and businesses."
+            >
 
-        <p class="description">
-            Turn your educational materials, training resources and
-            question banks into engaging interactive quiz apps.
-            Tailored to your content, your audience and your goals.
-        </p>
+            <p class="eyebrow">Learning through interaction</p>
 
-        <div class="features">
-            <div class="feature">Educational Apps</div>
-            <div class="feature">Corporate Training</div>
-            <div class="feature">Custom Content</div>
-            <div class="feature">Interactive Learning</div>
-        </div>
+            <h1>
+                Custom Quiz Apps for<br>
+                <span>Academies &amp; Businesses</span>
+            </h1>
 
-        <a
-            class="cta"
-            href="https://play.google.com/store/apps/dev?id=5097431096971213886"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            EXPLORE OUR APPS <span>↗</span>
-        </a>
+            <p class="description">
+                Turn your educational materials, training resources and
+                question banks into engaging interactive quiz apps.
+                Tailored to your content, your audience and your goals.
+            </p>
 
-        <p class="note">
-            Discover our quiz apps and educational projects on Google Play.
-        </p>
+            <div class="features">
+                <div class="feature">Educational Apps</div>
+                <div class="feature">Corporate Training</div>
+                <div class="feature">Custom Content</div>
+                <div class="feature">Interactive Learning</div>
+            </div>
+
+            <div class="buttons">
+
+                <a
+                    class="button button-primary"
+                    href="https://play.google.com/store/apps/dev?id=5097431096971213886"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    EXPLORE OUR APPS ↗
+                </a>
+
+                <a class="button button-secondary" href="#brochure">
+                    VIEW OUR BROCHURE ↓
+                </a>
+
+            </div>
+
+            <p class="note">
+                Discover our quiz apps and custom learning solutions.
+            </p>
+
+        </section>
+
+
+        <!-- PDF BROCHURE SECTION -->
+
+        <section class="brochure" id="brochure">
+
+            <div class="brochure-heading">
+                <p class="eyebrow">Our services</p>
+
+                <h2>
+                    Discover Our <span>Solutions</span>
+                </h2>
+
+                <p>
+                    Explore our brochure to learn about our custom quiz apps,
+                    available options, pricing and development process.
+                </p>
+            </div>
+
+            <div class="pdf-card">
+
+                <div class="pdf-toolbar">
+
+                    <div class="pdf-title">
+                        <div class="pdf-icon">PDF</div>
+
+                        <div>
+                            <strong>DGILA Studios</strong>
+                            <small>Custom Quiz Apps · Service Brochure</small>
+                        </div>
+                    </div>
+
+                    <div class="pdf-actions">
+
+                        <a
+                            class="pdf-action"
+                            href="Dossier_EN.pdf"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            OPEN FULL SCREEN ↗
+                        </a>
+
+                        <a
+                            class="pdf-action download"
+                            href="Dossier_EN.pdf"
+                            download="DGILA-Studios-Brochure.pdf"
+                        >
+                            DOWNLOAD PDF ↓
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <div class="pdf-viewer">
+
+                    <iframe
+                        src="Dossier_EN.pdf#view=FitH"
+                        title="DGILA Studios Custom Quiz Apps Brochure"
+                        loading="lazy">
+                    </iframe>
+
+                </div>
+
+                <div class="pdf-footer">
+                    Prefer to open the brochure separately?
+                    <a
+                        href="Dossier_EN.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        View the PDF in a new tab
+                    </a>.
+                </div>
+
+            </div>
+
+        </section>
 
     </main>
+
 
     <footer>
         <strong>DGILA Studios</strong><br>
         Custom quiz apps and interactive learning experiences.<br>
-        &copy; <span id="year">2026</span> DGILA Studios. All rights reserved.
+        &copy; <span id="year">2026</span> DGILA Studios.
+        All rights reserved.
     </footer>
 
     <script>
-        document.getElementById("year").textContent = new Date().getFullYear();
+        document.getElementById("year").textContent =
+            new Date().getFullYear();
     </script>
 
 </body>
 </html>
-```
+
