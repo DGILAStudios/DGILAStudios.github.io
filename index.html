@@ -142,23 +142,30 @@
             font-size: 13px;
         }
 
+        /* MAIN BUTTONS */
+
         .buttons {
             display: flex;
             justify-content: center;
             align-items: center;
             flex-wrap: wrap;
-            gap: 14px;
+            gap: 12px;
         }
 
         .button {
-            display: inline-block;
-            padding: 15px 25px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 20px;
             border-radius: 5px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: bold;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.4px;
             text-decoration: none;
-            transition: 0.2s ease;
+            white-space: nowrap;
+            transition: background 0.2s ease, transform 0.2s ease,
+                        border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
         .button-primary {
@@ -173,15 +180,119 @@
             background: rgba(10, 35, 66, 0.5);
         }
 
+        /* Demo: slightly more prominent than the other secondary buttons */
+
+        .button-demo {
+            color: #ffffff;
+            background: linear-gradient(100deg, #087fc9, #119fdf);
+            border: 1px solid #27baff;
+            box-shadow: 0 4px 18px rgba(0, 153, 255, 0.18);
+        }
+
+        .button-demo .play-icon {
+            font-size: 15px;
+            line-height: 1;
+        }
+
         .button:hover {
             transform: translateY(-2px);
             filter: brightness(1.12);
+        }
+
+        .button-demo:hover {
+            box-shadow: 0 6px 24px rgba(0, 153, 255, 0.3);
+        }
+
+        .button:focus-visible,
+        .pdf-action:focus-visible,
+        .modal-close:focus-visible {
+            outline: 2px solid #ffffff;
+            outline-offset: 4px;
         }
 
         .note {
             color: #8192ad;
             font-size: 12px;
             margin-top: 16px;
+        }
+
+        /* VIDEO MODAL */
+
+        .video-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: rgba(0, 5, 17, 0.88);
+            backdrop-filter: blur(6px);
+        }
+
+        .video-modal.open {
+            display: flex;
+        }
+
+        .video-dialog {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            padding: 18px;
+            border: 1px solid rgba(55, 160, 255, 0.35);
+            border-radius: 10px;
+            background: #09152a;
+            box-shadow: 0 20px 70px rgba(0, 0, 0, 0.5);
+        }
+
+        .video-heading {
+            padding: 0 45px 14px 2px;
+            color: #f4f7ff;
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .video-heading span {
+            color: #16baff;
+        }
+
+        .video-container {
+            overflow: hidden;
+            border-radius: 6px;
+            background: #000000;
+        }
+
+        .video-container video {
+            display: block;
+            width: 100%;
+            max-height: 72vh;
+            background: #000000;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            width: 38px;
+            height: 38px;
+            border: 1px solid rgba(55, 160, 255, 0.3);
+            border-radius: 5px;
+            background: rgba(10, 35, 66, 0.9);
+            color: #ffffff;
+            font-size: 25px;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            background: #123b60;
+        }
+
+        .video-caption {
+            padding-top: 12px;
+            color: #8192ad;
+            font-size: 12px;
+            text-align: center;
         }
 
         /* BROCHURE */
@@ -268,7 +379,6 @@
 
         .pdf-actions {
             display: flex;
-            align-items: center;
             flex-wrap: wrap;
             gap: 10px;
         }
@@ -279,12 +389,9 @@
             border-radius: 4px;
             border: 1px solid rgba(55, 160, 255, 0.35);
             color: #dceaff;
-            background: transparent;
             text-decoration: none;
-            font-family: inherit;
             font-size: 11px;
             font-weight: bold;
-            cursor: pointer;
             transition: 0.2s;
         }
 
@@ -333,71 +440,6 @@
             text-decoration: underline;
         }
 
-        /* VIDEO MODAL */
-
-        .demo-modal {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            padding: 20px;
-            background: rgba(0, 5, 16, 0.92);
-            align-items: center;
-            justify-content: center;
-        }
-
-        .demo-modal.active {
-            display: flex;
-        }
-
-        .demo-window {
-            width: 100%;
-            max-width: 900px;
-            max-height: 95vh;
-            background: #09152a;
-            border: 1px solid rgba(55, 160, 255, 0.4);
-            border-radius: 10px;
-            overflow: auto;
-            box-shadow: 0 20px 70px rgba(0, 100, 255, 0.2);
-        }
-
-        .demo-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 12px;
-            padding: 14px 20px;
-            color: #edf5ff;
-            border-bottom: 1px solid rgba(55, 160, 255, 0.2);
-        }
-
-        .demo-header strong {
-            font-size: 14px;
-        }
-
-        .demo-close {
-            flex-shrink: 0;
-            border: 0;
-            background: transparent;
-            color: #24baff;
-            font-size: 28px;
-            line-height: 1;
-            cursor: pointer;
-            padding: 0 5px;
-        }
-
-        .demo-close:hover {
-            color: #ffffff;
-        }
-
-        .demo-video {
-            display: block;
-            width: 100%;
-            max-height: 75vh;
-            background: #000000;
-            object-fit: contain;
-        }
-
         /* FOOTER */
 
         footer {
@@ -411,15 +453,6 @@
 
         footer strong {
             color: #c9d9ef;
-        }
-
-        footer a {
-            color: #24baff;
-            text-decoration: none;
-        }
-
-        footer a:hover {
-            text-decoration: underline;
         }
 
         /* MOBILE */
@@ -468,14 +501,18 @@
             }
 
             .buttons {
-                flex-direction: column;
-                gap: 12px;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
             }
 
             .buttons .button {
                 width: 100%;
-                max-width: 330px;
+                min-height: 48px;
+                padding: 12px 8px;
                 text-align: center;
+                white-space: normal;
+                font-size: 11px;
             }
 
             .brochure {
@@ -494,13 +531,12 @@
 
             .pdf-actions {
                 width: 100%;
-                display: grid;
-                grid-template-columns: 1fr 1fr;
             }
 
             .pdf-action {
+                flex: 1;
                 text-align: center;
-                padding: 10px 7px;
+                padding: 10px 8px;
                 font-size: 10px;
             }
 
@@ -513,16 +549,27 @@
                 line-height: 1.8;
             }
 
-            .demo-modal {
+            .video-modal {
                 padding: 12px;
             }
 
-            .demo-header {
-                padding: 12px 15px;
+            .video-dialog {
+                padding: 12px;
             }
 
-            .demo-video {
-                max-height: 78vh;
+            .video-heading {
+                font-size: 15px;
+                padding-right: 42px;
+            }
+
+            .video-container video {
+                max-height: 65vh;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .buttons {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -580,6 +627,8 @@
                 <div class="feature">Interactive Learning</div>
             </div>
 
+            <!-- MAIN ACTION BUTTONS -->
+
             <div class="buttons">
 
                 <a
@@ -598,11 +647,22 @@
                     CONTACT US ✉
                 </a>
 
+                <button
+                    class="button button-demo"
+                    type="button"
+                    onclick="openDemo()"
+                    aria-haspopup="dialog"
+                    aria-controls="demoModal"
+                >
+                    <span class="play-icon" aria-hidden="true">▶</span>
+                    WATCH APP DEMO
+                </button>
+
                 <a
                     class="button button-secondary"
                     href="#brochure"
                 >
-                    VIEW OUR BROCHURE ↓
+                    VIEW BROCHURE ↓
                 </a>
 
             </div>
@@ -613,12 +673,12 @@
 
         </section>
 
-
         <!-- PDF BROCHURE SECTION -->
 
         <section class="brochure" id="brochure">
 
             <div class="brochure-heading">
+
                 <p class="eyebrow">Our services</p>
 
                 <h2>
@@ -629,6 +689,7 @@
                     Explore our brochure to learn about our custom quiz apps,
                     available options, pricing and development process.
                 </p>
+
             </div>
 
             <div class="pdf-card">
@@ -636,27 +697,17 @@
                 <div class="pdf-toolbar">
 
                     <div class="pdf-title">
+
                         <div class="pdf-icon">PDF</div>
 
                         <div>
                             <strong>DGILA Studios</strong>
                             <small>Custom Quiz Apps · Service Brochure</small>
                         </div>
+
                     </div>
 
                     <div class="pdf-actions">
-
-                        <!-- VIDEO BUTTON -->
-
-                        <button
-                            class="pdf-action demo-button"
-                            type="button"
-                            onclick="openDemo()"
-                        >
-                            ▶ WATCH APP DEMO
-                        </button>
-
-                        <!-- OPEN PDF -->
 
                         <a
                             class="pdf-action"
@@ -664,10 +715,8 @@
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            OPEN PDF ↗
+                            OPEN FULL SCREEN ↗
                         </a>
-
-                        <!-- DOWNLOAD PDF -->
 
                         <a
                             class="pdf-action download"
@@ -709,46 +758,53 @@
 
     </main>
 
-
-    <!-- VIDEO POPUP -->
+    <!-- VIDEO DEMO MODAL -->
 
     <div
-        class="demo-modal"
+        class="video-modal"
         id="demoModal"
         role="dialog"
         aria-modal="true"
-        aria-label="App demonstration video"
-        onclick="if(event.target === this) closeDemo()"
+        aria-labelledby="videoTitle"
+        onclick="if (event.target === this) closeDemo()"
     >
 
-        <div class="demo-window">
+        <div class="video-dialog">
 
-            <div class="demo-header">
-                <strong>DGILA Studios — App Demo</strong>
+            <button
+                class="modal-close"
+                type="button"
+                onclick="closeDemo()"
+                aria-label="Close video"
+            >
+                &times;
+            </button>
 
-                <button
-                    class="demo-close"
-                    type="button"
-                    onclick="closeDemo()"
-                    aria-label="Close video"
-                >&times;</button>
+            <div class="video-heading" id="videoTitle">
+                See Our App in <span>Action</span>
             </div>
 
-            <video
-                class="demo-video"
-                id="demoVideo"
-                controls
-                playsinline
-                preload="metadata"
-            >
-                <source src="app-demo.mp4" type="video/mp4">
-                Your browser does not support HTML video.
-            </video>
+            <div class="video-container">
+
+                <video
+                    id="demoVideo"
+                    controls
+                    playsinline
+                    preload="metadata"
+                >
+                    <source src="app-demo.mp4" type="video/mp4">
+                    Your browser does not support HTML video.
+                </video>
+
+            </div>
+
+            <p class="video-caption">
+                A real example of an interactive quiz app by DGILA Studios.
+            </p>
 
         </div>
 
     </div>
-
 
     <!-- FOOTER -->
 
@@ -756,7 +812,10 @@
         <strong>DGILA Studios</strong><br>
         Custom quiz apps and interactive learning experiences.<br>
 
-        <a href="mailto:dgila.studios@gmail.com">
+        <a
+            href="mailto:dgila.studios@gmail.com"
+            style="color:#24baff; text-decoration:none;"
+        >
             ✉ dgila.studios@gmail.com
         </a>
 
@@ -766,49 +825,32 @@
         All rights reserved.
     </footer>
 
-
-    <!-- JAVASCRIPT -->
-
     <script>
-        // Update copyright year
-
-        document.getElementById("year").textContent =
-            new Date().getFullYear();
-
-
-        // Open and play app demo
+        const demoModal = document.getElementById("demoModal");
+        const demoVideo = document.getElementById("demoVideo");
 
         function openDemo() {
-            const modal = document.getElementById("demoModal");
-            const video = document.getElementById("demoVideo");
-
-            modal.classList.add("active");
+            demoModal.classList.add("open");
             document.body.style.overflow = "hidden";
 
-            video.currentTime = 0;
-            video.play().catch(() => {});
+            demoVideo.currentTime = 0;
+            demoVideo.play().catch(() => {});
         }
 
-
-        // Close video and stop playback
-
         function closeDemo() {
-            const modal = document.getElementById("demoModal");
-            const video = document.getElementById("demoVideo");
-
-            video.pause();
-            video.currentTime = 0;
-
-            modal.classList.remove("active");
+            demoVideo.pause();
+            demoModal.classList.remove("open");
             document.body.style.overflow = "";
         }
 
-
-        // Close popup with Escape key
-
         document.addEventListener("keydown", function(event) {
-            if (event.key === "Escape") closeDemo();
+            if (event.key === "Escape" && demoModal.classList.contains("open")) {
+                closeDemo();
+            }
         });
+
+        document.getElementById("year").textContent =
+            new Date().getFullYear();
     </script>
 
 </body>
