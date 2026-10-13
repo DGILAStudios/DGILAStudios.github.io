@@ -833,12 +833,45 @@
             demoModal.classList.add("open");
             document.body.style.overflow = "hidden";
 
-            demoVideo.currentTime = 0;
-            demoVideo.play().catch(() => {});
+            // Stop playback and reset the video before starting it again.
+            demoVideo.pause();
+
+            const startFromBeginning = () => {
+                demoVideo.currentTime = 0;
+
+                // Start playback after the browser has applied the seek.
+                const playFromStart = () => {
+                    demoVideo.removeEventListener("seeked", playFromStart);
+                    demoVideo.play().catch(error => {
+                        console.warn("The demo video could not autoplay:", error);
+                    });
+                };
+
+                if (demoVideo.currentTime === 0) {
+                    demoVideo.play().catch(error => {
+                        console.warn("The demo video could not autoplay:", error);
+                    });
+                } else {
+                    demoVideo.addEventListener("seeked", playFromStart, { once: true });
+                }
+            };
+
+            if (demoVideo.readyState >= 1) {
+                startFromBeginning();
+            } else {
+                demoVideo.addEventListener("loadedmetadata", startFromBeginning, { once: true });
+                demoVideo.load();
+            }
         }
 
         function closeDemo() {
             demoVideo.pause();
+
+            // Leave it ready to start from the beginning next time.
+            if (demoVideo.readyState >= 1) {
+                demoVideo.currentTime = 0;
+            }
+
             demoModal.classList.remove("open");
             document.body.style.overflow = "";
         }
