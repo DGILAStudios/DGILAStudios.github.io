@@ -1,1 +1,962 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>DGILA Studios | Applications de quiz personnalisées</title>
+
+    <meta name="description" content="Applications de quiz personnalisées pour les académies, les entreprises, les centres de formation et les enseignants. Transformez vos contenus en expériences d’apprentissage interactives avec DGILA Studios.">
+
+    <meta name="theme-color" content="#030817">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #030817;
+            color: #f4f7ff;
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* HEADER */
+
+        header {
+            position: relative;
+            width: 100%;
+            padding: 20px 16px 22px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            text-align: center;
+            border-bottom: 1px solid rgba(55, 160, 255, 0.16);
+        }
+
+        .logo-image {
+            display: block;
+            width: 62px;
+            max-width: 22vw;
+            height: auto;
+            object-fit: contain;
+            margin: 0 auto 3px;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            line-height: 1.3;
+        }
+
+        .logo span {
+            color: #16baff;
+        }
+
+        .header-label {
+            font-size: 11px;
+            color: #aabbd3;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            line-height: 1.5;
+        }
+
+        /* LANGUAGE SELECTOR */
+        .language-switcher {
+            position: absolute;
+            top: 18px;
+            right: max(18px, calc((100vw - 1200px) / 2));
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 7px 10px;
+            border: 1px solid rgba(55, 160, 255, 0.28);
+            border-radius: 999px;
+            background: rgba(10, 35, 66, 0.72);
+            color: #dceaff;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.35px;
+            transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
+        }
+
+        .language-switcher a {
+            display: inline-flex;
+            border-radius: 50%;
+            text-decoration: none;
+        }
+
+        .language-switcher img {
+            display: block;
+            width: 22px;
+            height: 22px;
+            object-fit: cover;
+            border-radius: 50%;
+            box-shadow: 0 0 0 1px rgba(255,255,255,0.16);
+        }
+
+        .language-switcher:hover {
+            background: rgba(16, 67, 110, 0.9);
+            border-color: #16baff;
+            transform: translateY(-1px);
+        }
+
+        .language-switcher:focus-visible {
+            outline: 2px solid #ffffff;
+            outline-offset: 4px;
+        }
+
+        /* MAIN */
+
+        main {
+            width: 100%;
+            max-width: 1160px;
+            margin: 0 auto;
+            padding: 48px 24px 70px;
+        }
+
+        /* HERO */
+
+        .hero {
+            text-align: center;
+        }
+
+        .hero-image {
+            width: 100%;
+            max-width: 1000px;
+            height: auto;
+            display: block;
+            margin: 0 auto 40px;
+            border-radius: 8px;
+            box-shadow: 0 15px 55px rgba(0, 100, 255, 0.12);
+        }
+
+        .eyebrow {
+            color: #16baff;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: clamp(30px, 5vw, 48px);
+            line-height: 1.18;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 22px;
+        }
+
+        h1 span {
+            color: #16baff;
+        }
+
+        .description {
+            max-width: 720px;
+            margin: 0 auto;
+            color: #b7c4d9;
+            font-size: 17px;
+            line-height: 1.9;
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 30px auto 35px;
+        }
+
+        .feature {
+            border: 1px solid rgba(57, 164, 255, 0.24);
+            background: rgba(15, 39, 75, 0.35);
+            border-radius: 6px;
+            padding: 10px 16px;
+            color: #dceaff;
+            font-size: 13px;
+        }
+
+        /* MAIN BUTTONS */
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 14px 20px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 0.4px;
+            text-decoration: none;
+            white-space: nowrap;
+            transition: background 0.2s ease, transform 0.2s ease,
+                        border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .button-primary {
+            color: #ffffff;
+            background: linear-gradient(100deg, #078de8, #13baff);
+            box-shadow: 0 6px 25px rgba(0, 153, 255, 0.2);
+        }
+
+        .button-secondary {
+            color: #dceaff;
+            border: 1px solid #1979b8;
+            background: rgba(10, 35, 66, 0.5);
+        }
+
+        /* Demo: slightly more prominent than the other secondary buttons */
+
+        .button-demo {
+            color: #ffffff;
+            background: linear-gradient(100deg, #087fc9, #119fdf);
+            border: 1px solid #27baff;
+            box-shadow: 0 4px 18px rgba(0, 153, 255, 0.18);
+        }
+
+        .button-demo .play-icon {
+            font-size: 15px;
+            line-height: 1;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.12);
+        }
+
+        .button-demo:hover {
+            box-shadow: 0 6px 24px rgba(0, 153, 255, 0.3);
+        }
+
+        .button:focus-visible,
+        .pdf-action:focus-visible,
+        .modal-close:focus-visible {
+            outline: 2px solid #ffffff;
+            outline-offset: 4px;
+        }
+
+        .note {
+            color: #8192ad;
+            font-size: 12px;
+            margin-top: 16px;
+        }
+
+        /* VIDEO MODAL */
+
+        .video-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: rgba(0, 5, 17, 0.88);
+            backdrop-filter: blur(6px);
+        }
+
+        .video-modal.open {
+            display: flex;
+        }
+
+        .video-dialog {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            padding: 18px;
+            border: 1px solid rgba(55, 160, 255, 0.35);
+            border-radius: 10px;
+            background: #09152a;
+            box-shadow: 0 20px 70px rgba(0, 0, 0, 0.5);
+        }
+
+        .video-heading {
+            padding: 0 45px 14px 2px;
+            color: #f4f7ff;
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .video-heading span {
+            color: #16baff;
+        }
+
+        .video-container {
+            overflow: hidden;
+            border-radius: 6px;
+            background: #000000;
+        }
+
+        .video-container video {
+            display: block;
+            width: 100%;
+            max-height: 72vh;
+            background: #000000;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 12px;
+            width: 38px;
+            height: 38px;
+            border: 1px solid rgba(55, 160, 255, 0.3);
+            border-radius: 5px;
+            background: rgba(10, 35, 66, 0.9);
+            color: #ffffff;
+            font-size: 25px;
+            line-height: 1;
+            cursor: pointer;
+        }
+
+        .modal-close:hover {
+            background: #123b60;
+        }
+
+        .video-caption {
+            padding-top: 12px;
+            color: #8192ad;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        /* BROCHURE */
+
+        .brochure {
+            margin: 80px auto 0;
+            padding-top: 55px;
+            border-top: 1px solid rgba(55, 160, 255, 0.2);
+        }
+
+        .brochure-heading {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .brochure-heading h2 {
+            font-size: clamp(27px, 4vw, 37px);
+            line-height: 1.25;
+            margin-bottom: 14px;
+        }
+
+        .brochure-heading h2 span {
+            color: #16baff;
+        }
+
+        .brochure-heading p {
+            max-width: 650px;
+            margin: 0 auto;
+            color: #aabbd3;
+            font-size: 15px;
+        }
+
+        .pdf-card {
+            overflow: hidden;
+            border: 1px solid rgba(55, 160, 255, 0.25);
+            border-radius: 10px;
+            background: #09152a;
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.25);
+        }
+
+        .pdf-toolbar {
+            min-height: 66px;
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 14px;
+            border-bottom: 1px solid rgba(55, 160, 255, 0.18);
+        }
+
+        .pdf-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .pdf-icon {
+            width: 38px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            background: rgba(0, 159, 255, 0.12);
+            color: #24baff;
+            font-size: 12px;
+            font-weight: bold;
+            border: 1px solid rgba(36, 186, 255, 0.3);
+        }
+
+        .pdf-title strong {
+            display: block;
+            font-size: 14px;
+            color: #edf5ff;
+        }
+
+        .pdf-title small {
+            display: block;
+            color: #8192ad;
+            font-size: 11px;
+            margin-top: 3px;
+        }
+
+        .pdf-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .pdf-action {
+            display: inline-block;
+            padding: 9px 13px;
+            border-radius: 4px;
+            border: 1px solid rgba(55, 160, 255, 0.35);
+            color: #dceaff;
+            text-decoration: none;
+            font-size: 11px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .pdf-action:hover {
+            background: rgba(22, 186, 255, 0.12);
+            border-color: #16baff;
+        }
+
+        .pdf-action.download {
+            background: #078fda;
+            border-color: #078fda;
+            color: #ffffff;
+        }
+
+        .pdf-action.download:hover {
+            background: #0aa9f5;
+        }
+
+        .pdf-viewer {
+            width: 100%;
+            height: 780px;
+            background: #ffffff;
+        }
+
+        .pdf-viewer iframe {
+            display: block;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .pdf-footer {
+            padding: 15px 20px;
+            text-align: center;
+            color: #8192ad;
+            font-size: 12px;
+            border-top: 1px solid rgba(55, 160, 255, 0.15);
+        }
+
+        .pdf-footer a {
+            color: #24baff;
+            text-decoration: none;
+        }
+
+        .pdf-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            padding: 25px 16px;
+            border-top: 1px solid rgba(55, 160, 255, 0.15);
+            color: #8192ad;
+            font-size: 12px;
+            line-height: 1.9;
+        }
+
+        footer strong {
+            color: #c9d9ef;
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+            header {
+                padding: 54px 12px 20px;
+                gap: 4px;
+            }
+
+            .language-switcher {
+                top: 10px;
+                right: 12px;
+                padding: 6px 9px;
+                font-size: 10px;
+                gap: 6px;
+            }
+
+            .language-switcher img {
+                width: 20px;
+                height: 20px;
+            }
+
+            .logo-image {
+                width: 54px;
+                max-width: 20vw;
+                margin-bottom: 3px;
+            }
+
+            .logo {
+                font-size: 18px;
+                letter-spacing: 1.2px;
+            }
+
+            .header-label {
+                font-size: 9px;
+                letter-spacing: 1.3px;
+            }
+
+            main {
+                padding: 30px 16px 45px;
+            }
+
+            .hero-image {
+                margin-bottom: 30px;
+            }
+
+            .description {
+                font-size: 15px;
+            }
+
+            .features {
+                gap: 8px;
+            }
+
+            .feature {
+                padding: 9px 11px;
+                font-size: 11px;
+            }
+
+            .buttons {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .buttons .button {
+                width: 100%;
+                min-height: 48px;
+                padding: 12px 8px;
+                text-align: center;
+                white-space: normal;
+                font-size: 11px;
+            }
+
+            .brochure {
+                margin-top: 55px;
+                padding-top: 38px;
+            }
+
+            .brochure-heading p {
+                font-size: 14px;
+            }
+
+            .pdf-toolbar {
+                padding: 14px;
+                align-items: flex-start;
+            }
+
+            .pdf-actions {
+                width: 100%;
+            }
+
+            .pdf-action {
+                flex: 1;
+                text-align: center;
+                padding: 10px 8px;
+                font-size: 10px;
+            }
+
+            .pdf-viewer {
+                height: 600px;
+            }
+
+            .pdf-footer {
+                padding: 14px;
+                line-height: 1.8;
+            }
+
+            .video-modal {
+                padding: 12px;
+            }
+
+            .video-dialog {
+                padding: 12px;
+            }
+
+            .video-heading {
+                font-size: 15px;
+                padding-right: 42px;
+            }
+
+            .video-container video {
+                max-height: 65vh;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header>
+        <nav class="language-switcher" aria-label="Choisir la langue">
+            <a href="https://dgilastudios.github.io/sp/" aria-label="Espagnol" title="Español">
+                <img src="../ESP-languaje.jpg" alt="Drapeau de l’Espagne">
+            </a>
+            <a href="https://dgilastudios.github.io/" aria-label="Anglais" title="English">
+                <img src="../EN-languaje.jpg" alt="Drapeau du Royaume-Uni">
+            </a>
+            <a href="https://dgilastudios.github.io/de/" aria-label="Allemand" title="Deutsch">
+                <img src="../DE-languaje.jpg" alt="Drapeau de l’Allemagne">
+            </a>
+        </nav>
+
+        <img
+            class="logo-image"
+            src="../Logo.png"
+            alt="DGILA Studios logo"
+        >
+
+        <div class="logo">
+            DGILA <span>STUDIOS</span>
+        </div>
+
+        <div class="header-label">
+            Apprentissage interactif
+        </div>
+    </header>
+
+    <main>
+
+        <!-- HERO SECTION -->
+
+        <section class="hero">
+
+            <img
+                class="hero-image"
+                src="dev-webpage.jpg"
+                alt="DGILA Studios — Jouez, apprenez, maîtrisez. Des applications de quiz personnalisées pour les académies et les entreprises."
+            >
+
+            <p class="eyebrow">Apprendre en interagissant</p>
+
+            <h1>
+                Des applications de quiz<br>
+                <span>pour les académies et les entreprises</span>
+            </h1>
+
+            <p class="description">
+                Transformez vos supports pédagogiques, ressources de formation et
+                banques de questions en applications de quiz interactives et captivantes.
+                Adaptées à vos contenus, à votre public et à vos objectifs.
+            </p>
+
+            <div class="features">
+                <div class="feature">Applications éducatives</div>
+                <div class="feature">Formation en entreprise</div>
+                <div class="feature">Contenu personnalisé</div>
+                <div class="feature">Apprentissage interactif</div>
+            </div>
+
+            <!-- MAIN ACTION BUTTONS -->
+
+            <div class="buttons">
+
+                <a
+                    class="button button-primary"
+                    href="https://play.google.com/store/apps/dev?id=5097431096971213886"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    DÉCOUVRIR NOS APPS ↗
+                </a>
+
+                <a
+                    class="button button-secondary"
+                    href="mailto:dgila.studios@gmail.com?subject=Demande%20d’application%20de%20quiz%20personnalisée"
+                >
+                    NOUS CONTACTER ✉
+                </a>
+
+                <button
+                    class="button button-demo"
+                    type="button"
+                    onclick="openDemo()"
+                    aria-haspopup="dialog"
+                    aria-controls="demoModal"
+                >
+                    <span class="play-icon" aria-hidden="true">▶</span>
+                    VOIR LA DÉMO ▶
+                </button>
+
+                <a
+                    class="button button-secondary"
+                    href="#brochure"
+                >
+                    VOIR LA BROCHURE ↓
+                </a>
+
+            </div>
+
+            <p class="note">
+                Découvrez nos applications de quiz et nos solutions d’apprentissage personnalisées.
+            </p>
+
+        </section>
+
+        <!-- PDF BROCHURE SECTION -->
+
+        <section class="brochure" id="brochure">
+
+            <div class="brochure-heading">
+
+                <p class="eyebrow">Nos services</p>
+
+                <h2>
+                    Découvrez nos <span>solutions</span>
+                </h2>
+
+                <p>
+                    Consultez notre brochure pour découvrir nos applications de quiz personnalisées,
+                    les options disponibles, les tarifs et le processus de développement.
+                </p>
+
+            </div>
+
+            <div class="pdf-card">
+
+                <div class="pdf-toolbar">
+
+                    <div class="pdf-title">
+
+                        <div class="pdf-icon">PDF</div>
+
+                        <div>
+                            <strong>DGILA Studios</strong>
+                            <small>Applications de quiz personnalisées · Brochure de présentation</small>
+                        </div>
+
+                    </div>
+
+                    <div class="pdf-actions">
+
+                        <a
+                            class="pdf-action"
+                            href="Dossier_FR.pdf"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            OUVRIR EN PLEIN ÉCRAN ↗
+                        </a>
+
+                        <a
+                            class="pdf-action download"
+                            href="Dossier_FR.pdf"
+                            download="DGILA-Studios-Brochure-FR.pdf"
+                        >
+                            TÉLÉCHARGER LE PDF ↓
+                        </a>
+
+                    </div>
+
+                </div>
+
+                <div class="pdf-viewer">
+
+                    <iframe
+                        src="Dossier_FR.pdf#view=FitH"
+                        title="Brochure DGILA Studios – Applications de quiz personnalisées"
+                        loading="lazy"
+                    ></iframe>
+
+                </div>
+
+                <div class="pdf-footer">
+                    Vous préférez ouvrir la brochure séparément ?
+
+                    <a
+                        href="Dossier_FR.pdf"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Voir le PDF dans un nouvel onglet
+                    </a>.
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- VIDEO DEMO MODAL -->
+
+    <div
+        class="video-modal"
+        id="demoModal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="videoTitle"
+        onclick="if (event.target === this) closeDemo()"
+    >
+
+        <div class="video-dialog">
+
+            <button
+                class="modal-close"
+                type="button"
+                onclick="closeDemo()"
+                aria-label="Fermer la vidéo"
+            >
+                &times;
+            </button>
+
+            <div class="video-heading" id="videoTitle">
+                Découvrez notre application <span>en action</span>
+            </div>
+
+            <div class="video-container">
+
+                <video
+                    id="demoVideo"
+                    controls
+                    playsinline
+                    preload="metadata"
+                >
+                    <source src="app-demo.mp4" type="video/mp4">
+                    Votre navigateur ne prend pas en charge la vidéo HTML.
+                </video>
+
+            </div>
+
+            <p class="video-caption">
+                Un exemple concret d’application de quiz interactive créée par DGILA Studios.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+
+    <footer>
+        <strong>DGILA Studios</strong><br>
+        Applications de quiz personnalisées et expériences d’apprentissage interactives.<br>
+
+        <a
+            href="mailto:dgila.studios@gmail.com"
+            style="color:#24baff; text-decoration:none;"
+        >
+            ✉ dgila.studios@gmail.com
+        </a>
+
+        <br>
+
+        &copy; <span id="year">2026</span> DGILA Studios.
+        Tous droits réservés.
+    </footer>
+
+    <script>
+        const demoModal = document.getElementById("demoModal");
+        const demoVideo = document.getElementById("demoVideo");
+
+        function openDemo() {
+            demoModal.classList.add("open");
+            document.body.style.overflow = "hidden";
+
+            // Stop playback and reset the video before starting it again.
+            demoVideo.pause();
+
+            const startFromBeginning = () => {
+                demoVideo.currentTime = 0;
+
+                // Start playback after the browser has applied the seek.
+                const playFromStart = () => {
+                    demoVideo.removeEventListener("seeked", playFromStart);
+                    demoVideo.play().catch(error => {
+                        console.warn("The demo video could not autoplay:", error);
+                    });
+                };
+
+                if (demoVideo.currentTime === 0) {
+                    demoVideo.play().catch(error => {
+                        console.warn("The demo video could not autoplay:", error);
+                    });
+                } else {
+                    demoVideo.addEventListener("seeked", playFromStart, { once: true });
+                }
+            };
+
+            if (demoVideo.readyState >= 1) {
+                startFromBeginning();
+            } else {
+                demoVideo.addEventListener("loadedmetadata", startFromBeginning, { once: true });
+                demoVideo.load();
+            }
+        }
+
+        function closeDemo() {
+            demoVideo.pause();
+
+            // Leave it ready to start from the beginning next time.
+            if (demoVideo.readyState >= 1) {
+                demoVideo.currentTime = 0;
+            }
+
+            demoModal.classList.remove("open");
+            document.body.style.overflow = "";
+        }
+
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Escape" && demoModal.classList.contains("open")) {
+                closeDemo();
+            }
+        });
+
+        document.getElementById("year").textContent =
+            new Date().getFullYear();
+    </script>
+
+</body>
+</html>
