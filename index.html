@@ -536,9 +536,63 @@
             main {
                 padding: 30px 16px 45px;
             }
-
             .hero-image {
-                margin-bottom: 30px;
+                 width: calc(100% + 32px);
+                 max-width: none;
+                 height: auto;
+                 margin: 0 -16px 30px;
+                 border-radius: 0;
+                 cursor: zoom-in;
+            }
+
+            .image-zoom-hint {
+                 display: block;
+                 margin: -18px 0 28px;
+                 color: #8192ad;
+                 font-size: 12px;
+                 text-align: center;
+            }
+
+            .image-zoom-modal {
+                 position: fixed;
+                 inset: 0;
+                 z-index: 2000;
+                 display: none;
+                 align-items: center;
+                 justify-content: center;
+                 padding: 12px;
+                 background: rgba(0, 5, 17, 0.96);
+            }
+
+            .image-zoom-modal.open { display: flex; }
+
+            .image-zoom-modal img {
+                 display: block;
+                 max-width: 100%;
+                 max-height: 92vh;
+                 width: auto;
+                 height: auto;
+                 object-fit: contain;
+                 touch-action: none;
+                 user-select: none;
+                 -webkit-user-drag: none;
+                 transform-origin: center center;
+                 cursor: zoom-in;
+            }
+
+            .image-zoom-close {
+                 position: absolute;
+                 top: 12px;
+                 right: 12px;
+                 z-index: 1;
+                 width: 42px;
+                 height: 42px;
+                 border: 1px solid rgba(55, 160, 255, 0.4);
+                 border-radius: 6px;
+                 background: rgba(10, 35, 66, 0.95);
+                 color: white;
+                 font-size: 28px;
+                 cursor: pointer;
             }
 
             .description {
@@ -672,6 +726,7 @@
                 src="dev-webpage.jpg"
                 alt="DGILA Studios — Play, Learn, Master. Custom quiz apps for academies and businesses."
             >
+            <p class="image-zoom-hint">Tap the image to enlarge it · Pinch to zoom</p>
 
             <p class="eyebrow">Learning through interaction</p>
 
@@ -824,6 +879,16 @@
 
     </main>
 
+    <!-- IMAGE ZOOM MODAL -->
+    <div class="image-zoom-modal" id="imageZoomModal" role="dialog"
+         aria-modal="true" aria-label="Enlarged webpage image"
+         onclick="if (event.target === this) closeImageZoom()">
+        <button class="image-zoom-close" type="button" onclick="closeImageZoom()"
+                aria-label="Close enlarged image">&times;</button>
+        <img id="imageZoomed" src="dev-webpage.jpg"
+             alt="Enlarged DGILA Studios webpage preview">
+    </div>
+
     <!-- VIDEO DEMO MODAL -->
 
     <div
@@ -892,6 +957,119 @@
     </footer>
 
     <script>
+        const heroImage = document.querySelector(".hero-image");
+        const imageZoomModal = document.getElementById("imageZoomModal");
+        const imageZoomed = document.getElementById("imageZoomed");
+        let zoomPointers = new Map();
+        let zoomStartDistance = 0;
+        let zoomStartScale = 1;
+        let zoomScale = 1;
+        let zoomStartX = 0;
+        let zoomStartY = 0;
+        let zoomTranslateX = 0;
+        let zoomTranslateY = 0;
+
+        heroImage.style.cursor = "zoom-in";
+        heroImage.setAttribute("tabindex", "0");
+        heroImage.setAttribute("role", "button");
+        heroImage.setAttribute("aria-label", "Tap to enlarge image");
+        heroImage.addEventListener("click", openImageZoom);
+        heroImage.addEventListener("keydown", event => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                openImageZoom();
+            }
+        });
+
+        function openImageZoom() {
+            zoomScale = 1;
+            zoomTranslateX = 0;
+            zoomTranslateY = 0;
+            zoomPointers.clear();
+            updateZoomTransform();
+            imageZoomModal.classList.add("open");
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeImageZoom() {
+            imageZoomModal.classList.remove("open");
+            document.body.style.overflow = "";
+            zoomPointers.clear();
+        }
+
+        function updateZoomTransform() {
+            imageZoomed.style.transform =
+                `translate(${zoomTranslateX}px, ${zoomTranslateY}px) scale(${zoomScale})`;
+        }
+
+        function pointerDistance(a, b) {
+            return Math.hypot(a.x - b.x, a.y - b.y);
+        }
+
+        imageZoomed.addEventListener("pointerdown", event => {
+            event.preventDefault();
+            imageZoomed.setPointerCapture(event.pointerId);
+            zoomPointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+            if (zoomPointers.size === 2) {
+                const points = [...zoomPointers.values()];
+                zoomStartDistance = pointerDistance(points[0], points[1]);
+                zoomStartScale = zoomScale;
+            } else {
+                zoomStartX = event.clientX - zoomTranslateX;
+                zoomStartY = event.clientY - zoomTranslateY;
+            }
+        });
+
+        imageZoomed.addEventListener("pointermove", event => {
+            if (!zoomPointers.has(event.pointerId)) return;
+            zoomPointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
+            if (zoomPointers.size === 2) {
+                const points = [...zoomPointers.values()];
+                const distance = pointerDistance(points[0], points[1]);
+                if (zoomStartDistance > 0) {
+                    zoomScale = Math.min(5, Math.max(1, zoomStartScale * distance / zoomStartDistance));
+                    if (zoomScale === 1) {
+                        zoomTranslateX = 0;
+                        zoomTranslateY = 0;
+                    }
+                    updateZoomTransform();
+                }
+            } else if (zoomScale > 1) {
+                zoomTranslateX = event.clientX - zoomStartX;
+                zoomTranslateY = event.clientY - zoomStartY;
+                updateZoomTransform();
+            }
+        });
+
+        function endZoomPointer(event) {
+            zoomPointers.delete(event.pointerId);
+            if (zoomPointers.size === 1) {
+                const remaining = [...zoomPointers.values()][0];
+                zoomStartX = remaining.x - zoomTranslateX;
+                zoomStartY = remaining.y - zoomTranslateY;
+            } else if (zoomPointers.size === 0) {
+                zoomStartDistance = 0;
+            }
+        }
+
+        imageZoomed.addEventListener("pointerup", endZoomPointer);
+        imageZoomed.addEventListener("pointercancel", endZoomPointer);
+        imageZoomed.addEventListener("dblclick", event => {
+            event.preventDefault();
+            zoomScale = zoomScale > 1 ? 1 : 2;
+            if (zoomScale === 1) {
+                zoomTranslateX = 0;
+                zoomTranslateY = 0;
+            }
+            updateZoomTransform();
+        });
+
+        document.addEventListener("keydown", event => {
+            if (event.key === "Escape" && imageZoomModal.classList.contains("open")) {
+                closeImageZoom();
+            }
+        });
+
         const demoModal = document.getElementById("demoModal");
         const demoVideo = document.getElementById("demoVideo");
 
