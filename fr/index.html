@@ -263,6 +263,54 @@
             margin-top: 16px;
         }
 
+        /* IMAGE ZOOM MODAL */
+        .image-zoom-hint {
+            display: none;
+            color: #8192ad;
+            font-size: 12px;
+            text-align: center;
+            margin: -18px 0 30px;
+        }
+
+        .image-zoom-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 1100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            padding: 12px;
+            background: rgba(0, 5, 17, 0.94);
+            touch-action: none;
+        }
+
+        .image-zoom-modal.open {
+            display: flex;
+        }
+
+        .image-zoom-modal img {
+            display: block;
+            max-width: 100%;
+            max-height: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            transform-origin: center center;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-drag: none;
+            cursor: zoom-in;
+        }
+
+        .image-zoom-modal img.zoomed {
+            cursor: grab;
+        }
+
+        .image-zoom-modal img.zoomed:active {
+            cursor: grabbing;
+        }
+
         /* VIDEO MODAL */
 
         .video-modal {
@@ -505,6 +553,10 @@
         /* MOBILE */
 
         @media (max-width: 600px) {
+            .image-zoom-hint {
+                display: block;
+            }
+
             header {
                 padding: 54px 12px 20px;
                 gap: 4px;
@@ -544,7 +596,12 @@
             }
 
             .hero-image {
-                margin-bottom: 30px;
+                width: calc(100% + 32px);
+                max-width: none;
+                height: auto;
+                margin: 0 -16px 30px;
+                border-radius: 0;
+                cursor: zoom-in;
             }
 
             .description {
@@ -678,6 +735,8 @@
                 src="dev-webpage.jpg"
                 alt="DGILA Studios — Jouez, apprenez, maîtrisez. Des applications de quiz personnalisées pour les académies et les entreprises."
             >
+
+            <p class="image-zoom-hint">Touchez l’image pour l’agrandir · Pincez pour zoomer</p>
 
             <p class="eyebrow">Apprendre en interagissant</p>
 
@@ -830,6 +889,25 @@
 
     </main>
 
+    <!-- IMAGE ZOOM MODAL -->
+    <div
+        class="image-zoom-modal"
+        id="imageZoomModal"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Image agrandie"
+        onclick="if (event.target === this) closeImageZoom()"
+    >
+        <button
+            class="modal-close"
+            type="button"
+            onclick="closeImageZoom()"
+            aria-label="Fermer l’image agrandie"
+            style="z-index: 1;"
+        >&times;</button>
+        <img id="zoomableHeroImage" src="dev-webpage.jpg" alt="DGILA Studios — Jouez, apprenez, maîtrisez." draggable="false">
+    </div>
+
     <!-- VIDEO DEMO MODAL -->
 
     <div
@@ -951,6 +1029,107 @@
         document.addEventListener("keydown", function(event) {
             if (event.key === "Escape" && demoModal.classList.contains("open")) {
                 closeDemo();
+            }
+        });
+
+        // Mobile image zoom: tap to open, pinch to zoom, drag to pan.
+        const heroImage = document.querySelector(".hero-image");
+        const imageZoomModal = document.getElementById("imageZoomModal");
+        const zoomableHeroImage = document.getElementById("zoomableHeroImage");
+        let imageScale = 1;
+        let imageTranslateX = 0;
+        let imageTranslateY = 0;
+        let pinchStartDistance = 0;
+        let pinchStartScale = 1;
+        let panStartX = 0;
+        let panStartY = 0;
+        let panOriginX = 0;
+        let panOriginY = 0;
+
+        function applyImageZoom() {
+            zoomableHeroImage.style.transform =
+                `translate(${imageTranslateX}px, ${imageTranslateY}px) scale(${imageScale})`;
+            zoomableHeroImage.classList.toggle("zoomed", imageScale > 1);
+            zoomableHeroImage.style.maxWidth = imageScale > 1 ? "none" : "100%";
+            zoomableHeroImage.style.maxHeight = imageScale > 1 ? "none" : "100%";
+        }
+
+        function openImageZoom() {
+            imageScale = 1;
+            imageTranslateX = 0;
+            imageTranslateY = 0;
+            applyImageZoom();
+            imageZoomModal.classList.add("open");
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeImageZoom() {
+            imageZoomModal.classList.remove("open");
+            document.body.style.overflow = demoModal.classList.contains("open") ? "hidden" : "";
+            imageScale = 1;
+            imageTranslateX = 0;
+            imageTranslateY = 0;
+            applyImageZoom();
+        }
+
+        heroImage.addEventListener("click", openImageZoom);
+
+        function touchDistance(touches) {
+            const dx = touches[0].clientX - touches[1].clientX;
+            const dy = touches[0].clientY - touches[1].clientY;
+            return Math.hypot(dx, dy);
+        }
+
+        zoomableHeroImage.addEventListener("touchstart", function(event) {
+            if (event.touches.length === 2) {
+                event.preventDefault();
+                pinchStartDistance = touchDistance(event.touches);
+                pinchStartScale = imageScale;
+            } else if (event.touches.length === 1 && imageScale > 1) {
+                panStartX = event.touches[0].clientX;
+                panStartY = event.touches[0].clientY;
+                panOriginX = imageTranslateX;
+                panOriginY = imageTranslateY;
+            }
+        }, { passive: false });
+
+        zoomableHeroImage.addEventListener("touchmove", function(event) {
+            if (event.touches.length === 2) {
+                event.preventDefault();
+                const distance = touchDistance(event.touches);
+                if (pinchStartDistance > 0) {
+                    imageScale = Math.min(5, Math.max(1, pinchStartScale * distance / pinchStartDistance));
+                    if (imageScale === 1) {
+                        imageTranslateX = 0;
+                        imageTranslateY = 0;
+                    }
+                    applyImageZoom();
+                }
+            } else if (event.touches.length === 1 && imageScale > 1) {
+                event.preventDefault();
+                imageTranslateX = panOriginX + event.touches[0].clientX - panStartX;
+                imageTranslateY = panOriginY + event.touches[0].clientY - panStartY;
+                applyImageZoom();
+            }
+        }, { passive: false });
+
+        zoomableHeroImage.addEventListener("touchend", function(event) {
+            if (event.touches.length < 2) pinchStartDistance = 0;
+        });
+
+        zoomableHeroImage.addEventListener("dblclick", function(event) {
+            event.preventDefault();
+            imageScale = imageScale > 1 ? 1 : 2;
+            if (imageScale === 1) {
+                imageTranslateX = 0;
+                imageTranslateY = 0;
+            }
+            applyImageZoom();
+        });
+
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Escape" && imageZoomModal.classList.contains("open")) {
+                closeImageZoom();
             }
         });
 
