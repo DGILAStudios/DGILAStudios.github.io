@@ -496,6 +496,15 @@
             color: #c9d9ef;
         }
 
+        /* IMAGE ZOOM: hidden by default on desktop */
+        .image-zoom-hint {
+            display: none;
+        }
+
+        .image-zoom-modal {
+            display: none;
+        }
+
         /* MOBILE */
 
         @media (max-width: 600px) {
@@ -969,17 +978,35 @@
         let zoomTranslateX = 0;
         let zoomTranslateY = 0;
 
-        heroImage.style.cursor = "zoom-in";
-        heroImage.setAttribute("tabindex", "0");
-        heroImage.setAttribute("role", "button");
-        heroImage.setAttribute("aria-label", "Tap to enlarge image");
-        heroImage.addEventListener("click", openImageZoom);
-        heroImage.addEventListener("keydown", event => {
+        // Enable image zoom only on mobile-sized screens.
+        function setupImageZoom() {
+            if (window.matchMedia("(max-width: 600px)").matches) {
+                heroImage.style.cursor = "zoom-in";
+                heroImage.setAttribute("tabindex", "0");
+                heroImage.setAttribute("role", "button");
+                heroImage.setAttribute("aria-label", "Tap to enlarge image");
+                heroImage.addEventListener("click", openImageZoom);
+                heroImage.addEventListener("keydown", handleHeroImageKeydown);
+            } else {
+                heroImage.style.cursor = "";
+                heroImage.removeAttribute("tabindex");
+                heroImage.removeAttribute("role");
+                heroImage.removeAttribute("aria-label");
+                heroImage.removeEventListener("click", openImageZoom);
+                heroImage.removeEventListener("keydown", handleHeroImageKeydown);
+                closeImageZoom();
+            }
+        }
+
+        function handleHeroImageKeydown(event) {
             if (event.key === "Enter" || event.key === " ") {
                 event.preventDefault();
                 openImageZoom();
             }
-        });
+        }
+
+        setupImageZoom();
+        window.addEventListener("resize", setupImageZoom);
 
         function openImageZoom() {
             zoomScale = 1;
