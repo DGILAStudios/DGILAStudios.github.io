@@ -263,6 +263,12 @@
             margin-top: 16px;
         }
 
+        /* IMAGE ZOOM: hidden by default, enabled only on mobile */
+        .image-zoom-hint,
+        .image-zoom-modal {
+            display: none;
+        }
+
         /* IMAGE ZOOM MODAL */
         .image-zoom-hint {
             display: none;
@@ -1072,7 +1078,36 @@
             applyImageZoom();
         }
 
-        heroImage.addEventListener("click", openImageZoom);
+        const mobileZoom = window.matchMedia("(max-width: 600px)");
+
+        function configureImageZoom() {
+            if (mobileZoom.matches) {
+                heroImage.style.cursor = "zoom-in";
+                heroImage.setAttribute("tabindex", "0");
+                heroImage.setAttribute("role", "button");
+                heroImage.setAttribute("aria-label", "Touchez pour agrandir l’image");
+            } else {
+                heroImage.style.cursor = "";
+                heroImage.removeAttribute("tabindex");
+                heroImage.removeAttribute("role");
+                heroImage.removeAttribute("aria-label");
+                closeImageZoom();
+            }
+        }
+
+        heroImage.addEventListener("click", () => {
+            if (mobileZoom.matches) openImageZoom();
+        });
+
+        heroImage.addEventListener("keydown", event => {
+            if (mobileZoom.matches && (event.key === "Enter" || event.key === " ")) {
+                event.preventDefault();
+                openImageZoom();
+            }
+        });
+
+        configureImageZoom();
+        mobileZoom.addEventListener("change", configureImageZoom);
 
         function touchDistance(touches) {
             const dx = touches[0].clientX - touches[1].clientX;
