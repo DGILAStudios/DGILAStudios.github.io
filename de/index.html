@@ -263,6 +263,12 @@
             margin-top: 16px;
         }
 
+        /* IMAGE ZOOM: hidden by default, enabled only on mobile */
+        .image-zoom-hint,
+        .image-zoom-modal {
+            display: none;
+        }
+
         /* IMAGE ZOOM MODAL */
         .image-zoom-hint {
             display: none;
@@ -701,11 +707,11 @@
             <a href="https://dgilastudios.github.io/sp/" aria-label="Spanisch" title="Español">
                 <img src="../ESP-languaje.png" alt="Flagge Spaniens">
             </a>
-            <a href="https://dgilastudios.github.io/" aria-label="Englisch" title="English">
-                <img src="../EN-languaje.png" alt="Flagge des Vereinigten Königreichs">
-            </a>
             <a href="https://dgilastudios.github.io/fr/" aria-label="Französisch" title="Français">
                 <img src="../FR-languaje.png" alt="Französische Flagge">
+            </a>
+            <a href="https://dgilastudios.github.io/" aria-label="Englisch" title="English">
+                <img src="../EN-languaje.png" alt="Flagge des Vereinigten Königreichs">
             </a>
         </nav>
 
@@ -733,21 +739,21 @@
             <img
                 class="hero-image"
                 src="dev-webpage.jpg"
-                alt="DGILA Studios — Spielen, lernen, meistern. Individuelle Quiz-Apps für Akademien und Unternehmen."
+                alt="DGILA Studios – Spielen, lernen, meistern. Individuelle Quiz-Apps für Akademien und Unternehmen."
             >
 
-            <p class="image-zoom-hint">Bild antippen zum Vergrößern · Zum Zoomen zwei Finger auseinanderziehen</p>
+            <p class="image-zoom-hint">Tippen Sie auf das Bild zum Vergrößern · Zum Zoomen auseinanderziehen</p>
 
             <p class="eyebrow">Lernen durch Interaktion</p>
 
             <h1>
-                Individuelle Quiz-Apps<br>
+                Quiz-Apps<br>
                 <span>für Akademien und Unternehmen</span>
             </h1>
 
             <p class="description">
-                Verwandeln Sie Ihre Lernmaterialien, Schulungsunterlagen und
-                Fragensammlungen in ansprechende, interaktive Quiz-Apps.
+                Verwandeln Sie Lehrmaterialien, Schulungsressourcen und
+                Fragensammlungen in interaktive und ansprechende Quiz-Apps.
                 Abgestimmt auf Ihre Inhalte, Ihre Zielgruppe und Ihre Ziele.
             </p>
 
@@ -786,7 +792,7 @@
                     aria-controls="demoModal"
                 >
                     <span class="play-icon" aria-hidden="true">▶</span>
-                    APP-DEMO ANSEHEN ▶
+                    DEMO ANSEHEN ▶
                 </button>
 
                 <a
@@ -818,7 +824,7 @@
 
                 <p>
                     In unserer Broschüre erfahren Sie mehr über unsere individuellen Quiz-Apps,
-                    verfügbare Optionen, Preise und den Entwicklungsprozess.
+                    die verfügbaren Optionen, Preise und den Entwicklungsprozess.
                 </p>
 
             </div>
@@ -833,7 +839,7 @@
 
                         <div>
                             <strong>DGILA Studios</strong>
-                            <small>Individuelle Quiz-Apps · Leistungsbroschüre</small>
+                            <small>Individuelle Quiz-Apps · Unternehmensbroschüre</small>
                         </div>
 
                     </div>
@@ -842,7 +848,7 @@
 
                         <a
                             class="pdf-action"
-                            href="Dossier_DE.pdf"
+                            href="dossier_DE.pdf"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
@@ -851,7 +857,7 @@
 
                         <a
                             class="pdf-action download"
-                            href="Dossier_DE.pdf"
+                            href="dossier_DE.pdf"
                             download="DGILA-Studios-Broschuere-DE.pdf"
                         >
                             PDF HERUNTERLADEN ↓
@@ -864,18 +870,18 @@
                 <div class="pdf-viewer">
 
                     <iframe
-                        src="Dossier_DE.pdf#view=FitH"
-                        title="DGILA Studios – Broschüre für individuelle Quiz-Apps"
+                        src="dossier_DE.pdf#view=FitH"
+                        title="DGILA Studios Broschüre – Individuelle Quiz-Apps"
                         loading="lazy"
                     ></iframe>
 
                 </div>
 
                 <div class="pdf-footer">
-                    Möchten Sie die Broschüre separat öffnen?
+                    Möchten Sie die Broschüre lieber separat öffnen?
 
                     <a
-                        href="Dossier_DE.pdf"
+                        href="dossier_DE.pdf"
                         target="_blank"
                         rel="noopener noreferrer"
                     >
@@ -905,7 +911,7 @@
             aria-label="Vergrößertes Bild schließen"
             style="z-index: 1;"
         >&times;</button>
-        <img id="zoomableHeroImage" src="dev-webpage.jpg" alt="DGILA Studios — Spielen, lernen, meistern." draggable="false">
+        <img id="zoomableHeroImage" src="dev-webpage.jpg" alt="DGILA Studios — Jouez, apprenez, maîtrisez." draggable="false">
     </div>
 
     <!-- VIDEO DEMO MODAL -->
@@ -943,13 +949,13 @@
                     preload="metadata"
                 >
                     <source src="app-demo.mp4" type="video/mp4">
-                    Ihr Browser unterstützt keine HTML-Videos.
+                    Ihr Browser unterstützt HTML-Video nicht.
                 </video>
 
             </div>
 
             <p class="video-caption">
-                Ein konkretes Beispiel für eine interaktive Quiz-App von DGILA Studios.
+                Ein konkretes Beispiel für eine von DGILA Studios entwickelte interaktive Quiz-App.
             </p>
 
         </div>
@@ -1072,7 +1078,36 @@
             applyImageZoom();
         }
 
-        heroImage.addEventListener("click", openImageZoom);
+        const mobileZoom = window.matchMedia("(max-width: 600px)");
+
+        function configureImageZoom() {
+            if (mobileZoom.matches) {
+                heroImage.style.cursor = "zoom-in";
+                heroImage.setAttribute("tabindex", "0");
+                heroImage.setAttribute("role", "button");
+                heroImage.setAttribute("aria-label", "Zum Vergrößern des Bildes antippen");
+            } else {
+                heroImage.style.cursor = "";
+                heroImage.removeAttribute("tabindex");
+                heroImage.removeAttribute("role");
+                heroImage.removeAttribute("aria-label");
+                closeImageZoom();
+            }
+        }
+
+        heroImage.addEventListener("click", () => {
+            if (mobileZoom.matches) openImageZoom();
+        });
+
+        heroImage.addEventListener("keydown", event => {
+            if (mobileZoom.matches && (event.key === "Enter" || event.key === " ")) {
+                event.preventDefault();
+                openImageZoom();
+            }
+        });
+
+        configureImageZoom();
+        mobileZoom.addEventListener("change", configureImageZoom);
 
         function touchDistance(touches) {
             const dx = touches[0].clientX - touches[1].clientX;
