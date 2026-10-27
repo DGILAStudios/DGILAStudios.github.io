@@ -502,6 +502,12 @@
             color: #c9d9ef;
         }
 
+        /* IMAGE ZOOM: hidden by default, enabled only on mobile */
+        .image-zoom-hint,
+        .image-zoom-modal {
+            display: none;
+        }
+
         /* MOBILE */
 
         @media (max-width: 600px) {
@@ -695,7 +701,7 @@
     <header>
         <nav class="language-switcher" aria-label="Sprache auswählen">
             <a href="https://dgilastudios.github.io/" aria-label="Inglaterra" title="Ingles">
-                <img src="../EN-languaje.png" alt="Bandera Inglaterra">
+                <img src="../ESP-languaje.png" alt="Bandera Inglaterra">
             </a>
            <a href="https://dgilastudios.github.io/fr/" aria-label="Francia" title="Frances">
                 <img src="../FR-languaje.png" alt="Bandera francia">
@@ -973,17 +979,35 @@
         let zoomTranslateX = 0;
         let zoomTranslateY = 0;
 
-        heroImage.style.cursor = "zoom-in";
-        heroImage.setAttribute("tabindex", "0");
-        heroImage.setAttribute("role", "button");
-        heroImage.setAttribute("aria-label", "Toca para ampliar la imagen");
-        heroImage.addEventListener("click", openImageZoom);
+        const mobileZoom = window.matchMedia("(max-width: 600px)");
+
+        function configureImageZoom() {
+            if (mobileZoom.matches) {
+                heroImage.style.cursor = "zoom-in";
+                heroImage.setAttribute("tabindex", "0");
+                heroImage.setAttribute("role", "button");
+                heroImage.setAttribute("aria-label", "Toca para ampliar la imagen");
+            } else {
+                heroImage.style.cursor = "";
+                heroImage.removeAttribute("tabindex");
+                heroImage.removeAttribute("role");
+                heroImage.removeAttribute("aria-label");
+                closeImageZoom();
+            }
+        }
+
+        heroImage.addEventListener("click", () => {
+            if (mobileZoom.matches) openImageZoom();
+        });
         heroImage.addEventListener("keydown", event => {
-            if (event.key === "Enter" || event.key === " ") {
+            if (mobileZoom.matches && (event.key === "Enter" || event.key === " ")) {
                 event.preventDefault();
                 openImageZoom();
             }
         });
+
+        configureImageZoom();
+        mobileZoom.addEventListener("change", configureImageZoom);
 
         function openImageZoom() {
             zoomScale = 1;
